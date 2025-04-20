@@ -1,4 +1,19 @@
-<p>list-attendance works!</p>
-<button (click)="addNewBless()">
+<h1 class="text-center mt-3">Confirmar asistencia</h1>
+<div class="form-confirm-attendance">
+    <div class="form-group">
+        <label for="">Digita tu nombre</label>
+        <ng-select class="custom-select" [items]="list" bindLabel="nombre" bindValue="nombre" [searchable]="true" [clearable]="true"
+            placeholder="Digita tu nombre" [(ngModel)]="selectedItemId">
+        </ng-select>
+
+        <p class="mt-2">Seleccionado: {{ selectedItemId }}</p>
+
+    </div>
+    <div class="buttons d-flex gap-3 mt-3 justify-content-center">
+        <button class="btn btn-warning" (click)="addNewBless()">Soy nuevo</button>
+        <button class="btn btn-primary" (click)="confirmAttendance()">Confirmar asistencia</button>
+    </div>
+</div>
+<!-- <button (click)="addNewBless()">
     Soy nuevo
-</button>
+</button> -->

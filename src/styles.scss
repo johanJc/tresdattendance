@@ -2,3 +2,13 @@
 .content-modal{
     padding: 1em;
 }
+
+.ng-select.custom {
+    border: 1px solid #d9d9d9 !important;
+    min-height: 0px;
+    border-radius: 0;
+}
+.ng-select.custom .ng-control  {            
+    min-height: 0px;
+    border-radius: 0;
+}

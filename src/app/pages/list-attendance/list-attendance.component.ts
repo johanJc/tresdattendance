@@ -2,10 +2,13 @@ import { Component, inject, signal, TemplateRef, WritableSignal } from '@angular
 import { FirestoreService } from '../../services/firestore.service';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NewBlessComponent } from '../../components/new-bless/new-bless.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+import confetti from 'canvas-confetti';
 
 @Component({
   selector: 'app-list-attendance',
-  imports: [],
+  imports: [NgSelectModule, FormsModule],
   templateUrl: './list-attendance.component.html',
   styleUrl: './list-attendance.component.scss'
 })
@@ -13,6 +16,9 @@ export class ListAttendanceComponent {
   firestoreService = inject(FirestoreService);
   private modalService = inject(NgbModal);
 	closeResult: WritableSignal<string> = signal('');
+  list: any[] = [];
+  selectedItemId;
+
   ngOnInit() {
     this.getList();
   }
@@ -45,7 +51,20 @@ export class ListAttendanceComponent {
 
   getList(){
     this.firestoreService.getCollectionChanges('bendecidos').subscribe((data) => {
-      console.log("Lista de asistencia: ", data)
+      this.list = data;
+      console.log("Lista de asistencia: ", this.list)
     })
+  }
+
+  confirmAttendance(){
+    this.celebrar();
+  }
+
+  celebrar() {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
   }
 }
