@@ -108,8 +108,8 @@ input,select,.ng-select-container{
 }
 
 .scrollbar-style{
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     scrollbar-width: thin; /* Para Firefox: hace que el scrollbar sea delgado */
     // scrollbar-color: transparent transparent; /* Para Firefox: sin fondo ni thumb */
     scrollbar-color: #03a0ef transparent;
