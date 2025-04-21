@@ -3,9 +3,15 @@
 }
 
 .box-page {
-    width: 85vw;
-    padding: 1em;
-    height: 80dvh;
+    width: 95vw;
+    padding: 1em 1.5em;
+    height: 85dvh;
+    position: relative;
+}
+
+.div-search{
+    width: 400px;
+    max-width: 100%;
 }
 
 .box-date{
@@ -18,3 +24,7 @@
     color: white;
     cursor: pointer;
 } 
+
+.list-attendance{
+    height: calc(100dvh - 250px);
+}

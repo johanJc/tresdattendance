@@ -1,9 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FirestoreService } from '../../../services/firestore.service';
+import { FormsModule } from '@angular/forms';
+import { FilterPipe } from '../../../pipes/filter.pipe';
 
 @Component({
   selector: 'app-attendace',
-  imports: [],
+  imports: [FormsModule, FilterPipe],
   templateUrl: './attendace.component.html',
   styleUrl: './attendace.component.scss'
 })
@@ -11,12 +13,18 @@ export class AttendaceComponent {
   firestoreService = inject(FirestoreService);
   list: any[] = [];
   suscribeList;
+  suscribeListAll;
   listAttendance: any[] = [];
   allData: any[] = [];
   selectedDate;
+  searchText;
 
   ngOnInit() {
     this.getListAttendance();
+  }
+
+  filterListRadio(casa3D){
+    this.searchText = casa3D;
   }
 
   getListAttendance() {
@@ -34,6 +42,14 @@ export class AttendaceComponent {
   }
 
   getListByDate(date: string) {
+    if(date === 'todos') {
+      this.selectedDate = 'todos';
+      this.suscribeListAll = this.firestoreService.getCollectionChanges('bendecidos').subscribe((data) => {
+        this.listAttendance = data;
+      })
+      return;
+    }
+
     this.selectedDate = date;
     this.listAttendance = this.allData.filter((item: any) => item.fecha === date);
     console.log('Lista de asistencia para la fecha seleccionada:', this.listAttendance);
@@ -43,9 +59,14 @@ export class AttendaceComponent {
     this.selectedDate = null;
   }  
 
+
   ngOnDestroy() {
     if (this.suscribeList) {
       this.suscribeList.unsubscribe();
+    }
+
+    if(this.suscribeListAll){
+      this.suscribeListAll.unsubscribe();
     }
   }
 }

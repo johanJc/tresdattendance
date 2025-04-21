@@ -106,10 +106,21 @@ h2,h1{
 input,select,.ng-select-container{
     box-shadow: 0px 3px 7px #b7c2fb;
 }
-// label{
-//     opacity: 0.7;
-//     font-size: 0.97em;
-// }
+
+.scrollbar-style{
+    overflow: auto;
+    scrollbar-width: thin; /* Para Firefox: hace que el scrollbar sea delgado */
+    // scrollbar-color: transparent transparent; /* Para Firefox: sin fondo ni thumb */
+    scrollbar-color: #03a0ef transparent;
+    &::-webkit-scrollbar-thumb {
+        background-color: #03a0ef; /* Color del thumb */
+        border-radius: 10px; /* Bordes redondeados */
+    }
+    &::-webkit-scrollbar-track {
+        background-color: transparent; /* Fondo transparente */
+    }
+}
+
 @media (max-width: 600px) {
     .body-page{
         background-position: right;
