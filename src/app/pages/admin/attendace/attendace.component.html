@@ -1,40 +1,42 @@
 <div class="box-page">
-    @if (!selectedDate) {
-        <h2 class="text-center">Fechas de Casas 3D</h2>
-    
-        <div class="list-dates d-flex gap-3">
-            @for (item of list; track $index) {
-            <div class="box-date" (click)="getListByDate(item)">
-                <strong>{{item}}</strong>
-            </div>
-            }
-        </div>
-    }@else {
-        <div class="list-attendance-date">
-            <!-- boton de volver -->
-            <a class="d-flex align-items-center cursor-pointer" (click)="goBack()" style="position: absolute; top: 3px;">
-                <i class="fa-solid fa-arrow-left"></i>&nbsp;Volver
-            </a>
-            <div class="w-100 mt-3">
-                <h2 class="text-center">Asistencia del {{selectedDate}}</h2>
-            </div>         
-            <div class="list-attendance">
-                @for (item of listAttendance; track $index) {
-                <div class="box-attendance d-flex justify-content-between align-items-center gap-3 mt-3">
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <div class="d-flex gap-3 align-items-center">
-                            <i class="fa-solid fa-user"></i>
-                            <p class="mb-0">{{item.nombre}} - {{item.casaTresD || 'N/A'}} - {{item.telefono || 'N/A'}}</p>
-                        </div>
-                    </div>
-                    <div class="actions">
-                        <!-- Boton de contactar por whatsapp -->
-                        <a class="btnc btn-custom-2 text-light" href="https://api.whatsapp.com/send?phone=57{{item.telefono}}&text=Hola {{item.nombre}}, soy del grupo Casa 3D, ¿Cómo has estado?" target="_blank" style="padding: 0.5px 1em; font-size: 1.2em;">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </a>
-                    </div>
+    <div class="content">
+        @if (!selectedDate) {
+            <h2 class="text-center">Fechas de Casas 3D</h2>
+        
+            <div class="list-dates d-flex gap-3">
+                @for (item of list; track $index) {
+                <div class="box-date" (click)="getListByDate(item)">
+                    <strong>{{item}}</strong>
                 </div>
                 }
             </div>
-        </div>
-    }
+        }@else {
+            <div class="list-attendance-date">
+                <!-- boton de volver -->
+                <a class="d-flex align-items-center cursor-pointer" (click)="goBack()" style="position: absolute; top: 3px;">
+                    <i class="fa-solid fa-arrow-left"></i>&nbsp;Volver
+                </a>
+                <div class="w-100 mt-3">
+                    <h2 class="text-center">Asistencia del {{selectedDate}}</h2>
+                </div>         
+                <div class="list-attendance">
+                    @for (item of listAttendance; track $index) {
+                    <div class="box-attendance d-flex justify-content-between align-items-center gap-3 mt-3">
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <div class="d-flex gap-3 align-items-center">
+                                <i class="fa-solid fa-user"></i>
+                                <p class="mb-0">{{item.nombre}} - {{item.casaTresD || 'N/A'}} - {{item.telefono || 'N/A'}}</p>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <!-- Boton de contactar por whatsapp -->
+                            <a class="btnc btn-custom-2 text-light" href="https://api.whatsapp.com/send?phone=57{{item.telefono}}&text=Hola {{item.nombre}}, soy del grupo Casa 3D, ¿Cómo has estado?" target="_blank" style="padding: 0.5px 1em; font-size: 1.2em;">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>

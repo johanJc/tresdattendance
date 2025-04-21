@@ -63,7 +63,7 @@ export class ListAttendanceComponent {
   async getListCurrentDate() {
     let date = await this.getCurrentDate();
     this.firestoreService.getCollectionChanges('asistencia').subscribe((data) => {
-      this.attendanceInCurrentDate = data.filter(item => item.fecha === date);
+      this.attendanceInCurrentDate = data.filter(item => item.fecha === '8/04/2025');
       console.log("Asistencia en la fecha actual: ", this.attendanceInCurrentDate)
     })
   }
@@ -97,8 +97,8 @@ export class ListAttendanceComponent {
     // Obtener data del usuario seleccionado
     const selectedUser = this.list.find(item => item.nombre === this.selectedItemId);
  
-   this.firestoreService.addAttendance({ selectedUser, fecha: formattedDate }).then(() => {      
-      sessionStorage.setItem('dateLastAttendance', formattedDate);
+   this.firestoreService.addAttendance({ selectedUser, fecha: '8/04/2025' }).then(() => {      
+      // sessionStorage.setItem('dateLastAttendance', formattedDate);
       this.inProcess = false;
       this.attendanceConfirmed = true;
       this.celebrar();
@@ -110,6 +110,14 @@ export class ListAttendanceComponent {
 
   }
 
+  onSelectChange() {
+    // Cierra el teclado llamando al método blur() en el elemento activo
+    const activeElement = document.activeElement as HTMLElement;
+    if (activeElement) {
+      activeElement.blur();
+    }
+  }
+  
   celebrar() {
     confetti({
       particleCount: 100,

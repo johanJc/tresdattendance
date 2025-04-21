@@ -4,7 +4,7 @@
     <h2 class="text-center mt-0">Confirmar asistencia</h2>
     <div class="form-confirm-attendance">
         <div class="form-group">
-            <ng-select class="custom-select" [items]="list" bindLabel="nombre" bindValue="nombre" [searchable]="true"
+            <ng-select class="custom-select" [items]="list" bindLabel="nombre" bindValue="nombre" [searchable]="true" (change)="onSelectChange()"
                 [clearable]="true" placeholder="Digita tu nombre" [(ngModel)]="selectedItemId">
             </ng-select>
         </div>
