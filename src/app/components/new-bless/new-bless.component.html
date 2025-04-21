@@ -1,23 +1,28 @@
-
 <div class="content-modal">
-    <h2 class="titleModal text-center mb-3">Nuevo bendecido</h2>
-    <form>
-      <div class="mb-3">
-        <label for="casaTresD" class="form-label">Casa TresD</label>
-        <input type="text" class="form-control" id="casaTresD" name="casaTresD" required>
-      </div>
-      <div class="mb-3">
-        <label for="direccion" class="form-label">Dirección</label>
-        <input type="text" class="form-control" id="direccion" name="direccion" required>
-      </div>
-      <div class="mb-3">
-        <label for="nombre" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="nombre" name="nombre" required>
-      </div>
-      <div class="mb-3">
-        <label for="telefono" class="form-label">Teléfono</label>
-        <input type="text" class="form-control" id="telefono" name="telefono" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
+  <h2 class="titleModal text-center mb-3">Nuevo bendecido</h2>
+  <form [formGroup]="form">   
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="nombre" name="nombre" required formControlName="nombre">
+    </div>
+    <div class="mb-3">
+      <label for="direccion" class="form-label">Dirección</label>
+      <input type="text" class="form-control" id="direccion" name="direccion" required formControlName="direccion">
+    </div>
+    <div class="mb-3">
+      <label for="telefono" class="form-label">Teléfono</label>
+      <input type="text" class="form-control" id="telefono" name="telefono" required formControlName="telefono">
+    </div>
+    <div class="mb-3">
+      <label for="casaTresD" class="form-label">Casa TresD</label>
+      <ng-select class="custom-select" [items]="casas" bindLabel="name" bindValue="name" [searchable]="true"
+        [clearable]="true" placeholder="Digita tu nombre" formControlName="casaTresD">
+      </ng-select>
+    </div>
+    <div class="buttons d-flex gap-3 mt-3 justify-content-end">
+      <button type="submit" class="btn btn-primary" (click)="addNewBless()" [disabled]="inProcess">Enviar
+        @if (inProcess) {<span class="spinner-border spinner-border-sm" role="status"></span> }        
+      </button>
+    </div>
+  </form>
 </div>

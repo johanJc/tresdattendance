@@ -5,6 +5,7 @@ import { NewBlessComponent } from '../../components/new-bless/new-bless.componen
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import confetti from 'canvas-confetti';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-list-attendance',
@@ -18,9 +19,17 @@ export class ListAttendanceComponent {
 	closeResult: WritableSignal<string> = signal('');
   list: any[] = [];
   selectedItemId;
+  inProcess: boolean = false;
+  attendanceInCurrentDate: any[] = [];
+  attendanceConfirmed = false;
 
   ngOnInit() {
     this.getList();
+    this.getListCurrentDate();
+    let dateLastAttendance = sessionStorage.getItem('dateLastAttendance');
+    if(dateLastAttendance === this.getCurrentDate()){
+      this.attendanceConfirmed = true;
+    }
   }
 
   addNewBless(){
@@ -52,12 +61,59 @@ export class ListAttendanceComponent {
   getList(){
     this.firestoreService.getCollectionChanges('bendecidos').subscribe((data) => {
       this.list = data;
-      console.log("Lista de asistencia: ", this.list)
+      console.log("Lista de usuarios: ", this.list)
     })
   }
 
-  confirmAttendance(){
-    this.celebrar();
+  async getListCurrentDate(){
+    let date = await this.getCurrentDate();
+    this.firestoreService.getCollectionChanges('asistencia').subscribe((data) => {
+      this.attendanceInCurrentDate = data.filter(item => item.fecha === date);
+      console.log("Asistencia en la fecha actual: ", this.attendanceInCurrentDate)
+    })
+  }
+
+  getCurrentDate(){
+    const currentDate = new Date();
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Los meses son 0-indexed
+    const year = currentDate.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+  async confirmAttendance(){
+    if(!this.selectedItemId) return;
+    if(this.inProcess) return;
+
+    if(this.attendanceInCurrentDate.find(item => item.nombre === this.selectedItemId)){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Ya se ha registrado asistencia para este usuario en la fecha actual',
+        confirmButtonText: 'Aceptar'
+      })
+      return;
+    }    
+
+    this.inProcess = true;
+    // Obtener fecha actual en formato dd//mm/yyyy
+    const formattedDate = await this.getCurrentDate();
+        
+    console.log("Fecha actual: ", formattedDate)
+    console.log(this.selectedItemId)
+
+    this.firestoreService.addAttendance({ nombre: this.selectedItemId, fecha: formattedDate }).then(() => {
+      console.log("Asistencia registrada")
+      sessionStorage.setItem('dateLastAttendance', formattedDate);
+      this.inProcess = false;
+      this.attendanceConfirmed = true;
+      this.celebrar();
+    }).catch((error) => {
+      console.error("Error al registrar asistencia: ", error)
+      this.inProcess = false;
+    })
+    this.selectedItemId = null;
+
   }
 
   celebrar() {
