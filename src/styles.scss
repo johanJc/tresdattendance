@@ -1,5 +1,7 @@
 $primary:#03a0ef;
 $secondary: #dc1d7c;
+$title-color: #033a7a;
+
 *{
     font-family: "Gloria Hallelujah", cursive;
     font-weight: 400;
@@ -72,12 +74,17 @@ $secondary: #dc1d7c;
         box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.2);
     }
 }
-
-h2,h1,button{    
-    text-shadow: 0px 5px 7px #fbb7b7;
+button{
     font-family: "Permanent Marker", cursive !important;
     font-weight: 400;
     font-style: normal;
+}
+h2,h1{    
+    text-shadow: 0px 5px 7px #8e00f959;
+    color: $title-color;
+    font-family: "Permanent Marker", cursive !important;
+    font-weight: 400;
+    font-style: normal;    
 }
 
 input,select,.ng-select-container{
