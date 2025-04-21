@@ -2,6 +2,13 @@ $primary:#03a0ef;
 $secondary: #dc1d7c;
 $title-color: #033a7a;
 
+:root {
+    /* Aquí se declaran las variables globales */
+    --primary: #03a0ef;
+    --secondary: #dc1d7c;
+    --title-color: #033a7a;
+  }
+
 *{
     font-family: "Gloria Hallelujah", cursive;
     font-weight: 400;
@@ -10,6 +17,10 @@ $title-color: #033a7a;
 /* You can add global styles to this file, and also import other style files */
 .content-modal{
     padding: 1em;
+}
+
+.cursor-pointer{
+    cursor: pointer;
 }
 
 .ng-select.custom {
@@ -78,6 +89,10 @@ button{
     font-family: "Permanent Marker", cursive !important;
     font-weight: 400;
     font-style: normal;
+    &:disabled{
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 }
 h2,h1{    
     text-shadow: 0px 5px 7px #8e00f959;

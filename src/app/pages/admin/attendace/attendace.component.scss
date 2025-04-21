@@ -1,0 +1,16 @@
+.box-page{
+    width: 85vw;
+    padding: 1em;
+    height: 80dvh;
+}
+
+.box-date{
+    // background-color: var(--primary);
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    display: block;
+    padding: 10px 1em;
+    width: fit-content;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+} 

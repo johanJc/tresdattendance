@@ -1,7 +1,7 @@
-import { Component, inject, signal, TemplateRef, WritableSignal } from '@angular/core';
-import { FirestoreService } from '../../services/firestore.service';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { FirestoreService } from '../../../services/firestore.service';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NewBlessComponent } from '../../components/new-bless/new-bless.component';
+import { NewBlessComponent } from '../../../components/new-bless/new-bless.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import confetti from 'canvas-confetti';
@@ -9,7 +9,7 @@ import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-list-attendance',
-  imports: [NgSelectModule, FormsModule, NewBlessComponent],
+  imports: [NgSelectModule, FormsModule],
   templateUrl: './list-attendance.component.html',
   styleUrl: './list-attendance.component.scss'
 })
@@ -53,17 +53,6 @@ export class ListAttendanceComponent {
     this.modalService.dismissAll();
   }
 
-  private getDismissReason(reason: any): string {
-    switch (reason) {
-      case ModalDismissReasons.ESC:
-        return 'by pressing ESC';
-      case ModalDismissReasons.BACKDROP_CLICK:
-        return 'by clicking on a backdrop';
-      default:
-        return `with: ${reason}`;
-    }
-  }
-
   getList() {
     this.firestoreService.getCollectionChanges('bendecidos').subscribe((data) => {
       this.list = data;
@@ -105,11 +94,10 @@ export class ListAttendanceComponent {
     // Obtener fecha actual en formato dd//mm/yyyy
     const formattedDate = await this.getCurrentDate();
 
-    console.log("Fecha actual: ", formattedDate)
-    console.log(this.selectedItemId)
-
-    this.firestoreService.addAttendance({ nombre: this.selectedItemId, fecha: formattedDate }).then(() => {
-      console.log("Asistencia registrada")
+    // Obtener data del usuario seleccionado
+    const selectedUser = this.list.find(item => item.nombre === this.selectedItemId);
+ 
+   this.firestoreService.addAttendance({ selectedUser, fecha: formattedDate }).then(() => {      
       sessionStorage.setItem('dateLastAttendance', formattedDate);
       this.inProcess = false;
       this.attendanceConfirmed = true;

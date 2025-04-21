@@ -34,11 +34,14 @@ export class FirestoreService {
    * @param data - Objeto que contiene el nombre y la fecha de la asistencia.
    * @returns - Promesa que se resuelve cuando la operación se completa.
    */
-  async addAttendance(data: { nombre: string; fecha: string }) {
+  async addAttendance(data: { selectedUser: any; fecha: string }) {
     const id = await this.createIdRandom(); // Generar un ID único
     const asistenciaData = {
-      nombre: data.nombre,
+      nombre: data.selectedUser.nombre,
+      telefono: data.selectedUser.telefono,
+      direccion: data.selectedUser.direccion,
       fecha: data.fecha,
+      casaTresD: data.selectedUser.casaTresD,
       id: id,
     };
     const document = doc(this.firestore, `asistencia/${id}`);
