@@ -57,6 +57,8 @@ export class AttendaceComponent {
 
   goBack() {
     this.selectedDate = null;
+    this.searchText = null;
+    this.listAttendance = null;
   }  
 
 

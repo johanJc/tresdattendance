@@ -3,9 +3,10 @@
 }
 
 .box-page {
-    width: 95vw;
-    padding: 1em 1.5em;
-    height: 85dvh;
+    min-width: 500px;
+    max-width: 95vw;
+    padding: 1em 2em;
+    max-height: 90dvh;
     position: relative;
 }
 
