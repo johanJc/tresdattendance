@@ -20,7 +20,10 @@
       </ng-select>
     </div>
     <div class="buttons d-flex gap-3 mt-3 justify-content-end">
-      <button type="submit" class="btn btn-primary" (click)="addNewBless()" [disabled]="inProcess">Enviar
+      <button class="btnc btn-custom-2" (click)="closeModal()">
+        Cancelar
+      </button>
+      <button type="submit" class="btnc btn-custom-1" (click)="addNewBless()" [disabled]="inProcess">Enviar
         @if (inProcess) {<span class="spinner-border spinner-border-sm" role="status"></span> }        
       </button>
     </div>

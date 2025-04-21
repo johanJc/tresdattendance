@@ -9,14 +9,14 @@ import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-list-attendance',
-  imports: [NgSelectModule, FormsModule],
+  imports: [NgSelectModule, FormsModule, NewBlessComponent],
   templateUrl: './list-attendance.component.html',
   styleUrl: './list-attendance.component.scss'
 })
 export class ListAttendanceComponent {
   firestoreService = inject(FirestoreService);
   private modalService = inject(NgbModal);
-	closeResult: WritableSignal<string> = signal('');
+  closeResult: WritableSignal<string> = signal('');
   list: any[] = [];
   selectedItemId;
   inProcess: boolean = false;
@@ -27,45 +27,51 @@ export class ListAttendanceComponent {
     this.getList();
     this.getListCurrentDate();
     let dateLastAttendance = sessionStorage.getItem('dateLastAttendance');
-    if(dateLastAttendance === this.getCurrentDate()){
+    if (dateLastAttendance === this.getCurrentDate()) {
       this.attendanceConfirmed = true;
     }
   }
 
-  addNewBless(){
+  addNewBless() {
     this.openModal(NewBlessComponent);
   }
 
   openModal(content) {
-		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true }).result.then(
-			(result) => {
-				this.closeResult.set(`Closed with: ${result}`);
-			},
-			(reason) => {
-				this.closeResult.set(`Dismissed ${this.getDismissReason(reason)}`);
-			},
-		);
-	}
+    const modalRef = this.modalService.open(content, { centered: true });
+    // Escuchar el evento emitido por NewBlessComponent
+    modalRef.componentInstance.eventCloseModal.subscribe((event: any) => {
+      console.log('Evento recibido desde NewBlessComponent:', event);
+      this.closeModal(); // Cierra el modal
+    });
+  }
+
+  eventCloseModal(event: any) {
+    this.closeModal();
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
+  }
 
   private getDismissReason(reason: any): string {
-		switch (reason) {
-			case ModalDismissReasons.ESC:
-				return 'by pressing ESC';
-			case ModalDismissReasons.BACKDROP_CLICK:
-				return 'by clicking on a backdrop';
-			default:
-				return `with: ${reason}`;
-		}
-	}
+    switch (reason) {
+      case ModalDismissReasons.ESC:
+        return 'by pressing ESC';
+      case ModalDismissReasons.BACKDROP_CLICK:
+        return 'by clicking on a backdrop';
+      default:
+        return `with: ${reason}`;
+    }
+  }
 
-  getList(){
+  getList() {
     this.firestoreService.getCollectionChanges('bendecidos').subscribe((data) => {
       this.list = data;
       console.log("Lista de usuarios: ", this.list)
     })
   }
 
-  async getListCurrentDate(){
+  async getListCurrentDate() {
     let date = await this.getCurrentDate();
     this.firestoreService.getCollectionChanges('asistencia').subscribe((data) => {
       this.attendanceInCurrentDate = data.filter(item => item.fecha === date);
@@ -73,7 +79,7 @@ export class ListAttendanceComponent {
     })
   }
 
-  getCurrentDate(){
+  getCurrentDate() {
     const currentDate = new Date();
     const day = String(currentDate.getDate()).padStart(2, '0');
     const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Los meses son 0-indexed
@@ -81,11 +87,11 @@ export class ListAttendanceComponent {
     return `${day}/${month}/${year}`;
   }
 
-  async confirmAttendance(){
-    if(!this.selectedItemId) return;
-    if(this.inProcess) return;
+  async confirmAttendance() {
+    if (!this.selectedItemId) return;
+    if (this.inProcess) return;
 
-    if(this.attendanceInCurrentDate.find(item => item.nombre === this.selectedItemId)){
+    if (this.attendanceInCurrentDate.find(item => item.nombre === this.selectedItemId)) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -93,12 +99,12 @@ export class ListAttendanceComponent {
         confirmButtonText: 'Aceptar'
       })
       return;
-    }    
+    }
 
     this.inProcess = true;
     // Obtener fecha actual en formato dd//mm/yyyy
     const formattedDate = await this.getCurrentDate();
-        
+
     console.log("Fecha actual: ", formattedDate)
     console.log(this.selectedItemId)
 

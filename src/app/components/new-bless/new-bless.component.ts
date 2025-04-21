@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FirestoreService } from '../../services/firestore.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -14,6 +14,7 @@ import { first } from 'rxjs';
 export class NewBlessComponent {
   firestoreService = inject(FirestoreService);
   formBuilder = inject(FormBuilder);
+  @Output() eventCloseModal = new EventEmitter<any>();
   form: FormGroup;
   casas = [
     {
@@ -84,5 +85,12 @@ export class NewBlessComponent {
           }
         });
     });
+  }
+
+  closeModal() {
+    this.form.reset();
+    this.selectedItemId = null;
+    this.inProcess = false;
+    this.eventCloseModal.emit(true);
   }
 }
