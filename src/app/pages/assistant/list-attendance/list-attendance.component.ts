@@ -96,8 +96,8 @@ export class ListAttendanceComponent {
 
     // Obtener data del usuario seleccionado
     const selectedUser = this.list.find(item => item.nombre === this.selectedItemId);
- 
-   this.firestoreService.addAttendance({ selectedUser, fecha: '8/04/2025' }).then(() => {      
+
+    this.firestoreService.addAttendance({ selectedUser, fecha: '8/04/2025' }).then(() => {
       // sessionStorage.setItem('dateLastAttendance', formattedDate);
       this.inProcess = false;
       this.attendanceConfirmed = true;
@@ -111,13 +111,24 @@ export class ListAttendanceComponent {
   }
 
   onSelectChange() {
-    // Cierra el teclado llamando al método blur() en el elemento activo
-    const activeElement = document.activeElement as HTMLElement;
-    if (activeElement) {
-      activeElement.blur();
-    }
+    // Crea un elemento temporal para forzar el cierre del teclado
+    const tempInput = document.createElement('input');
+    tempInput.style.position = 'absolute';
+    tempInput.style.opacity = '0';
+    tempInput.style.height = '0';
+    tempInput.style.width = '0';
+    tempInput.style.border = 'none';
+    tempInput.style.outline = 'none';
+    document.body.appendChild(tempInput);
+
+    // Enfoca el elemento temporal y luego lo elimina
+    tempInput.focus();
+    setTimeout(() => {
+      tempInput.blur();
+      document.body.removeChild(tempInput);
+    }, 50);
   }
-  
+
   celebrar() {
     confetti({
       particleCount: 100,
