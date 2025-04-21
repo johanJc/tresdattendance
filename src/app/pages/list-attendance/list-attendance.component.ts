@@ -37,7 +37,7 @@ export class ListAttendanceComponent {
   }
 
   openModal(content) {
-		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true }).result.then(
 			(result) => {
 				this.closeResult.set(`Closed with: ${result}`);
 			},
