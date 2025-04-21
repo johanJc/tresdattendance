@@ -1,27 +1,29 @@
-@if(!attendanceConfirmed){
-<h1 class="text-center mt-3">Confirmar asistencia</h1>
-<div class="form-confirm-attendance">
-    <div class="form-group">
-        <label for="">Digita tu nombre</label>
-        <ng-select class="custom-select" [items]="list" bindLabel="nombre" bindValue="nombre" [searchable]="true"
-            [clearable]="true" placeholder="Digita tu nombre" [(ngModel)]="selectedItemId">
-        </ng-select>
-    </div>
-    <div class="buttons d-flex gap-3 mt-3 justify-content-center">
-        <button class="btn btn-warning" (click)="addNewBless()" [disabled]="inProcess">Soy nuevo</button>
-        <button class="btn btn-primary" (click)="confirmAttendance()"
-            [disabled]="!this.selectedItemId || inProcess">Confirmar asistencia
-            @if (inProcess) { <span class="spinner-border spinner-border-sm" role="status"></span> }
-        </button>
-    </div>
-</div>
-}@else {
-    <div class="box-confirm-attendance mt-5">
-        <h1 class="text-center mt-3">Asistencia confirmada</h1>
-        <div class="d-flex justify-content-center align-items-center flex-column mt-4">
-            <i class="fa-solid fa-circle-check fa-5x text-success"></i>
-            <p class="mt-3" style="font-size: 1.2em;">Gracias por confirmar tu asistencia</p>
+<div class="box-page">
+    <img src="Casa3dlogo.png" class="logo-casa-3d" alt="">
+    @if(!attendanceConfirmed){
+    <h2 class="text-center mt-0">Confirmar asistencia</h2>
+    <div class="form-confirm-attendance">
+        <div class="form-group">
+            <ng-select class="custom-select" [items]="list" bindLabel="nombre" bindValue="nombre" [searchable]="true"
+                [clearable]="true" placeholder="Digita tu nombre" [(ngModel)]="selectedItemId">
+            </ng-select>
         </div>
-
+        <div class="buttons d-flex gap-3 mt-3 justify-content-center">
+            <button class="btnc btn-custom-2" (click)="addNewBless()" [disabled]="inProcess">Soy nuevo</button>
+            <button class="btnc btn-custom-1" (click)="confirmAttendance()"
+                [disabled]="!this.selectedItemId || inProcess">Confirmar
+                @if (inProcess) { <span class="spinner-border spinner-border-sm" role="status"></span> }
+            </button>
+        </div>
     </div>
-}
+    }@else {
+        <div class="box-confirm-attendance">
+            <h2 class="text-center">Asistencia confirmada</h2>
+            <div class="d-flex justify-content-center align-items-center flex-column mt-4">
+                <i class="fa-solid fa-circle-check fa-5x text-success"></i>
+                <p class="mt-3" style="font-size: 1.2em;">Gracias por confirmar tu asistencia</p>
+            </div>
+    
+        </div>
+    }
+</div>
