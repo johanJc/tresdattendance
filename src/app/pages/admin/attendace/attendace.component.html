@@ -24,11 +24,18 @@
                 <h2 class="text-center">{{selectedDate == 'todos' ? `Todos las personas` : `Asistencia del
                     ${selectedDate}`}} </h2>
             </div>
-            <div class="filter d-flex justify-content-between align-items-center">
+            <div class="filter d-flex justify-content-between align-items-center gap-3">
                 <!-- Input de busqueda -->
                 <div class="form-group div-search">
                     <input type="text" class="form-control" placeholder="Buscar por nombre o telefono"
                         [(ngModel)]="searchText" />
+                </div>
+
+                <!-- Descargar excel -->
+                <div class="form-group div-download">
+                    <button class="btn btn-success d-flex justify-content-center align-items-center" (click)="downloadExcel(selectedDate)" [disabled]="!listAttendance.length">
+                        <i class="fa-solid fa-file-excel"></i>&nbsp;Exportar
+                    </button>
                 </div>
 
                 <!-- Radio button de casa3d -->
