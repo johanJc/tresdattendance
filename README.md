@@ -1,6 +1,8 @@
-# Tresdattendance
+# Casas Tres D - Project:Tresdattendance
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
+Esta construido para la administración de asistentes a los eventos de Casa Tres D, se puede marcar la asistencia al evento y tambien mirar quienes
+asistieron en una fecha específica 
 
 ## Development server
 
