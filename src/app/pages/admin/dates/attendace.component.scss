@@ -1,11 +1,13 @@
 .list-dates{
     flex-wrap: wrap;
 }
+.content{
+    width: 500px;
+    max-width: 95vw;   
+    padding: 1em; 
+}
 
 .box-page {
-    width: 500px;
-    max-width: 95vw;
-    padding: 1em 2em;
     max-height: 90dvh;
     position: relative;
 }
@@ -28,4 +30,15 @@
 
 .list-attendance{
     height: calc(100dvh - 250px);
+}
+
+.icon-excel{
+    padding: 2px 5px;
+    border-radius: 5px;
+    display: block;
+    transition: all 0.3s ease-in-out;
+    &:hover{
+        background: green;
+        color: white !important;
+    }
 }

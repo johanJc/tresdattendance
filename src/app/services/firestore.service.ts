@@ -49,6 +49,21 @@ export class FirestoreService {
   }
 
   /**
+   * Agregar ofrenda
+   * @param data data - ofrenda
+   * @returns 
+   */
+  async addOffering(data:any) {
+    const id = await this.createIdRandom(); // Generar un ID único
+    const offeringData = {
+      ...data,
+      id: id,
+    };
+    const document = doc(this.firestore, `ofrendas/${id}`);
+    return setDoc(document, offeringData);
+  }
+
+  /**
    * Agrega una nueva persona a la colección 'bendecidos' en Firestore.
    * @param data - Objeto que contiene la información de la persona a agregar.
    * @returns - Promesa que se resuelve cuando la operación se completa.
@@ -64,6 +79,23 @@ export class FirestoreService {
     const document = doc(this.firestore, `bendecidos/${id}`);
     return setDoc(document, people);
   }
+
+    /**
+   * Agrega una nueva casa de eventos
+   * @param data - Objeto que contiene la información de la casa
+   * @returns - Promesa que se resuelve cuando la operación se completa.
+   */
+    async createHouse(data: { direccion: string, nombre: string; responsable: string }) {
+      const id = await this.createIdRandom(); // Generar un ID único
+      const people = {
+        id: id,
+        direccion: data.direccion,
+        nombre: data.nombre,
+        responsable: data.responsable,
+      }
+      const document = doc(this.firestore, `casas/${id}`);
+      return setDoc(document, people);
+    }
 
   /**
    * Obtiene la lista de asistencia de una fecha específica.
@@ -126,23 +158,24 @@ export class FirestoreService {
   //   return collectionData(q) as Observable<any[]>;
   // }
 
-  // async deleteDocument(id: string): Promise<void> {
-  //   // Eliminar el documento en la colección 'Deudas'
-  //   const deudaRef = doc(this.firestore, `Deudas/${id}`);
-  //   await deleteDoc(deudaRef);
-
-  //   // Eliminar todos los documentos en 'HistorialPagos' que tengan idDeuda igual a `id`
-  //   const historialRef = collection(this.firestore, 'HistorialPagos');
-  //   const historialQuery = query(historialRef, where('idDeuda', '==', id));
-  //   const snapshot = await getDocs(historialQuery);
-
-  //   // Usar un batch para eliminar múltiples documentos
-  //   const batch = writeBatch(this.firestore);
-  //   snapshot.forEach((doc) => {
-  //     batch.delete(doc.ref);
-  //   });
-
-  //   // Ejecutar el batch de eliminación
-  //   await batch.commit();
-  // }
+  async deleteDocument(collectionName:string, id: string, name?:string): Promise<void> {
+    // Eliminar el documento en la colecció
+    const deudaRef = doc(this.firestore, `${collectionName}/${id}`);
+    await deleteDoc(deudaRef);
+    if(collectionName === 'casas'){
+      // Eliminar todos los documentos en 'HistorialPagos' que tengan idDeuda igual a `id`
+      const historialRef = collection(this.firestore, 'asistencia');
+      const historialQuery = query(historialRef, where('casaTresD', '==', name));
+      const snapshot = await getDocs(historialQuery);
+  
+      // Usar un batch para eliminar múltiples documentos
+      const batch = writeBatch(this.firestore);
+      snapshot.forEach((doc) => {
+        batch.delete(doc.ref);
+      });
+  
+      // Ejecutar el batch de eliminación
+      await batch.commit();
+    }
+  }
 }

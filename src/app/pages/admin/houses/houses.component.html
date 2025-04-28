@@ -1,0 +1,36 @@
+<div class="box-page">
+    <div class="content">
+        <div class="title text-center mb-3">
+            <h2><i class="fa fa-home"></i>&nbsp;Houses</h2>
+        </div>
+        <div class="filter mb-4">
+            <div class="form-group div-search">
+                <input type="text" class="form-control" placeholder="Buscar"
+                    [(ngModel)]="searchText" />
+            </div>
+        </div>
+        <div class="list-houses">
+            <div class="box-house create" (click)="openModal(content)">Crear casa</div>
+            @for (item of list | filter: searchText: 'nombre'; track $index) {
+            <div class="box-house">
+                <div class="box-house-info" (click)="goToDate(item)">
+                    <p>{{item.nombre}}</p>
+                </div>
+                <span class="text-danger" (click)="deleteHouse(item); $event.stopPropagation()">
+                    <i class="fa-solid fa-trash"></i>
+                </span>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Modal para crear casas -->
+<ng-template #content let-modal>
+    <div class="content-modal">
+        <div class="header-modal mb-3">
+            <h2 class="titleModal text-center">Crear casa</h2>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <app-create-house (eventCloseModal)="closeModal()"/>
+    </div>
+</ng-template>

@@ -16,24 +16,24 @@ export class NewBlessComponent {
   formBuilder = inject(FormBuilder);
   @Output() eventCloseModal = new EventEmitter<any>();
   form: FormGroup;
-  casas = [
-    {
-      name: 'Manantiales'
-    },
-    {
-      name: 'Simón bolívar'
-    }
-  ]
+  casas = []
   selectedItemId;
   inProcess: boolean = false;
 
   ngOnInit() {
+    this.getHouses();
     this.form = this.formBuilder.group({
       casaTresD: ['', Validators.required],
       direccion: ['', Validators.required],
       nombre: ['', Validators.required],
       telefono: ['', Validators.required]
     });
+  }
+
+  getHouses(){
+    this.firestoreService.getCollectionChanges('casas').subscribe((data) => {
+      this.casas = data;
+    })
   }
 
   async addNewBless() {

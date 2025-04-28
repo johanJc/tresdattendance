@@ -19,6 +19,16 @@ $title-color: #033a7a;
     padding: 1em;
 }
 
+.header-modal{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h1,h2{
+        margin: 0px;
+        line-height: 0;
+    }
+}
+
 .cursor-pointer{
     cursor: pointer;
 }
@@ -42,7 +52,8 @@ $title-color: #033a7a;
     overflow: hidden;
     display: flex;
     justify-content: center;
-    align-items: center;
+    // align-items: center;
+    padding-top: 2em;
     background-image: url('../public/wallpaper.webp');
     background-position: center;
     background-size: cover;
@@ -95,7 +106,7 @@ button{
         cursor: not-allowed;
     }
 }
-h2,h1{    
+h2,h1,h3,h4,h5{    
     text-shadow: 0px 5px 7px #8e00f959;
     color: $title-color;
     font-family: "Permanent Marker", cursive !important;
