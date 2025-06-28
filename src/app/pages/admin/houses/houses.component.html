@@ -3,7 +3,10 @@
         <div class="title text-center mb-3">
             <h2><i class="fa fa-home"></i>&nbsp;Houses</h2>
         </div>
-        <div class="filter mb-4">
+        <div class="filter mb-4 d-flex gap-3 align-items-center">
+            <a class="cursor-pointer" (click)="getListByDate('todos')">
+                <strong>Ver todos</strong>
+            </a>
             <div class="form-group div-search">
                 <input type="text" class="form-control" placeholder="Buscar"
                     [(ngModel)]="searchText" />

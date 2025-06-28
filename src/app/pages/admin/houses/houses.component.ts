@@ -19,9 +19,16 @@ export class HousesComponent {
   modalService = inject(NgbModal);
   router = inject(Router);
   searchText = "";
+  suscribeListAll;
+  listAttendance: any[] = [];
 
   ngOnInit(){
     this.getList();
+  }
+
+  
+  getListByDate(date: string) {
+    this.router.navigate(['/admin/houses/dates'], { queryParams: { casa: JSON.stringify('todos') } });
   }
 
   /**

@@ -32,7 +32,7 @@ export class AttendaceComponent {
 
   ngOnInit() {
     this.getParams();
-    this.getListAttendance();    
+    this.getListAttendance();
   }
 
   goBackHouses() {
@@ -45,12 +45,22 @@ export class AttendaceComponent {
   getParams() {
     this.route.queryParams.subscribe(params => {
       this.casa = JSON.parse(params['casa']);
+      if (this.casa == 'todos') {
+        this.getAllPeople();
+      }
       console.log('Casa:', this.casa); // Imprime 'Casa 3D' en la consola
     });
   }
 
   filterListRadio(casa3D) {
     this.searchText = casa3D;
+  }
+
+  getAllPeople() {
+    this.suscribeListAll = this.firestoreService.getCollectionChanges('bendecidos').subscribe((data) => {
+      this.listAttendance = data;
+    })
+    return;
   }
 
   getListAttendance() {
@@ -76,7 +86,10 @@ export class AttendaceComponent {
     if (date === 'todos') {
       this.selectedDate = 'todos';
       this.suscribeListAll = this.firestoreService.getCollectionChanges('bendecidos').subscribe((data) => {
-        this.listAttendance = data;
+        console.log("Lista de bendecidos: ", data);
+        // Filtrar los datos por la casa 3d actual 
+        this.listAttendance = data.filter((item: any) => item.casaTresD === this.casa.nombre);
+        // this.listAttendance = data;
       })
       return;
     }
@@ -88,6 +101,10 @@ export class AttendaceComponent {
   }
 
   goBack() {
+    if(this.casa == 'todos'){
+      this.router.navigate(['/admin/houses']);    
+      return;
+    }
     this.selectedDate = null;
     this.searchText = null;
     this.listAttendance = null;
@@ -149,7 +166,7 @@ export class AttendaceComponent {
     this.modalService.dismissAll();
   }
 
-  getOfferingByDate(date: string) {   
+  getOfferingByDate(date: string) {
     // !AUN FALTA QUE ESTO FUNCIONE BIEN 
     this.firestoreService.getCollectionChanges('ofrenda').subscribe((data) => {
       this.inProcess = false;
@@ -158,8 +175,8 @@ export class AttendaceComponent {
     })
   }
 
-  addOffering(){
-    if(!this.ofrenda){return;}
+  addOffering() {
+    if (!this.ofrenda) { return; }
 
     this.inProcess = true;
     this.firestoreService.addOffering({
